@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import vn.hoidanit.todo.dto.request.LoginRequest;
+import vn.hoidanit.todo.dto.request.RefreshTokenRequest;
 import vn.hoidanit.todo.dto.response.LoginResponse;
 import vn.hoidanit.todo.dto.response.RestResponse;
 import vn.hoidanit.todo.dto.response.UserProfileResponse;
@@ -30,6 +31,12 @@ public class AuthController {
     public ResponseEntity<RestResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
         LoginResponse loginResponse = authService.login(request);
         return ResponseEntity.ok(RestResponse.success(loginResponse));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<RestResponse<LoginResponse>> refresh(@Valid @RequestBody RefreshTokenRequest request) {
+        LoginResponse tokenResponse = authService.refresh(request.getRefreshToken());
+        return ResponseEntity.ok(RestResponse.success(tokenResponse));
     }
 
     @GetMapping("/account")
